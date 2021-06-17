@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<form action="" method="post" novalidate enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="row">
+        <div class="col-sm-4">
+            <p>
+                {{ form.title.label }}<br>
+                {{ form.title(size=64) }}
+                {% for error in form.title.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.subtitle.label }}<br>
+                {{ form.subtitle(size=64) }}
+            </p>
+            <p>
+                {{ form.author.label }}<br>
+                {{ form.author(size=32) }}
+                {% for error in form.author.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.body.label }}<br>
+                {{ form.body(cols=70, rows=20) }}
+                {% for error in form.body.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>{{ form.submit() }}</p>
+        </div>
+        <div class="col-sm-4">
+            {% if form.image_path.data %}
+            <p><img src="{{ imageSource + form.image_path.data }}" width="250" height="250" /></p>
+            <p>{{ form.delete_image }} {{ form.delete_image.label }}</p>
+            {% endif %}
+            <p>
+                {{ form.image_path.label }}<br>
+                {{ form.image_path }}
+                {% for error in form.image_path.errors %}
+                <span style="color: red;">{{ error.join(form.image_path.errors) }}</span>
+                {% endfor %}
+            </p>
+        </div>
+        <div class="col-sm-4">
+            {% if post is defined and user is defined %}
+            <p>created at {{ post.timestamp }}</p>
+            {% endif %}
+        </div>
+    </div>
+</form>
+{% endblock %}
